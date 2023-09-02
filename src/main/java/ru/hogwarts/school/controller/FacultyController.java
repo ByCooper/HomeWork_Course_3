@@ -9,6 +9,7 @@ import ru.hogwarts.school.service.FacultyServiceImpl;
 import ru.hogwarts.school.service.StudentServiceImpl;
 
 import java.util.Collection;
+import java.util.List;
 
 
 @RequestMapping("faculty")
@@ -56,10 +57,27 @@ public class FacultyController {
         Collection<Faculty> filter = facultyService.filter(color);
         return ResponseEntity.ok(filter);
     }
+    @GetMapping()
+    public ResponseEntity<Collection<Faculty>> findFaculty(@RequestParam(required = false) String name,
+                                                           @RequestParam(required = false) String color) {
+        if (name != null && !name.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByNameContainsIgnoreCase(name));
+        }
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(facultyService.findByColorContainsIgnoreCase(color));
+        }
+        return null;
+    }
 
-    @GetMapping("/color/all")
+    @GetMapping("/all")
     public ResponseEntity<Collection<Faculty>> allFaculty() {
         Collection<Faculty> filter = facultyService.getAll();
         return ResponseEntity.ok(filter);
+    }
+
+    @GetMapping("/students/{id}")
+    public ResponseEntity<List<Student>> getStudentsFromFaculty(@PathVariable Long id) {
+        List<Student> students = facultyService.getStudentFromFaculty(id);
+        return ResponseEntity.ok(students);
     }
 }

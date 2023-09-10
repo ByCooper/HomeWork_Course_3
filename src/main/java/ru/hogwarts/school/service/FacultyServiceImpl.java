@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.FacultyRepository;
+import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.model.StudentRepository;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,9 +17,11 @@ import java.util.stream.Collectors;
 public class FacultyServiceImpl implements FacultyService{
 
     private final FacultyRepository facultyRepository;
+    private final StudentServiceImpl studentService;
 
-    public FacultyServiceImpl(FacultyRepository facultyRepository) {
+    public FacultyServiceImpl(FacultyRepository facultyRepository, StudentServiceImpl studentService) {
         this.facultyRepository = facultyRepository;
+        this.studentService = studentService;
     }
 
     @Override
@@ -49,5 +54,16 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public Collection<Faculty> getAll() {
         return facultyRepository.findAll();
+    }
+
+    public Collection<Faculty> findByNameContainsIgnoreCase(String name) {
+        return facultyRepository.findByNameContainsIgnoreCase(name);
+    }
+    public Collection<Faculty> findByColorContainsIgnoreCase(String color) {
+        return facultyRepository.findByColorContainsIgnoreCase(color);
+    }
+
+    public List<Student> getStudentFromFaculty(Long id) {
+        return studentService.findByFacultyId(id);
     }
 }

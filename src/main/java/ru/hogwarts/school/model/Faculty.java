@@ -2,6 +2,8 @@ package ru.hogwarts.school.model;
 
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +17,7 @@ public class Faculty {
     private String name;
     private String color;
     @OneToMany
+    @JsonIgnore
     private List<Student> students;
 
     public List<Student> getStudents() {
@@ -36,10 +39,10 @@ public class Faculty {
 
     @Override
     public String toString() {
-        return "Faculty{" +
+        return "{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", color='" + color + '\'' +
+                ", name=" + name +
+                ", color=" + color +
                 '}';
     }
 

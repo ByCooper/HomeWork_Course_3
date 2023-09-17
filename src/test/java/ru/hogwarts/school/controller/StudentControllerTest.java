@@ -244,5 +244,6 @@ class StudentControllerTest {
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody()).isEqualTo(studResponse.getBody().getFaculty());
+
     }
 }

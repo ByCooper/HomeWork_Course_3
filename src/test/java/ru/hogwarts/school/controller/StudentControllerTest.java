@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -31,16 +30,12 @@ class StudentControllerTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @MockBean
     StudentRepository studentRepository;
-
     @MockBean
     FacultyRepository facultyRepository;
-
     @SpyBean
     StudentServiceImpl studentService;
-
     @SpyBean
     StudentController studentController;
     @SpyBean
@@ -63,7 +58,6 @@ class StudentControllerTest {
         student.setFaculty(faculty);
 
         when(studentRepository.save(any(Student.class))).thenReturn(student);
-        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
 
         mockMvc.perform(post("/student")
                         .content(objectMapper.writeValueAsString(faculty))
@@ -88,11 +82,9 @@ class StudentControllerTest {
         student.setAge(27);
         student.setFaculty(faculty);
 
-        when(studentRepository.save(any(Student.class))).thenReturn(student);
         when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
 
         mockMvc.perform(get("/student/" + student.getId())
-                        .content(objectMapper.writeValueAsString(faculty))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -116,7 +108,6 @@ class StudentControllerTest {
         student.setFaculty(faculty);
 
         when(studentRepository.save(any(Student.class))).thenReturn(student);
-        when(studentRepository.findById(any(Long.class))).thenReturn(Optional.of(student));
 
         mockMvc.perform(put("/student")
                         .content(objectMapper.writeValueAsString(faculty))
@@ -165,6 +156,26 @@ class StudentControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").isNotEmpty());
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(jsonPath("$[0].id").value(student.getId()))
+                .andExpect(jsonPath("$[0].name").value(student.getName()))
+                .andExpect(jsonPath("$[0].age").value(student.getAge()))
+                .andExpect(jsonPath("$[0].faculty").value(student.getFaculty()))
+                .andExpect(jsonPath("$[1].id").value(student1.getId()))
+                .andExpect(jsonPath("$[1].name").value(student1.getName()))
+                .andExpect(jsonPath("$[1].age").value(student1.getAge()))
+                .andExpect(jsonPath("$[1].faculty").value(student1.getFaculty()))
+                .andExpect(jsonPath("$[2].id").value(student2.getId()))
+                .andExpect(jsonPath("$[2].name").value(student2.getName()))
+                .andExpect(jsonPath("$[2].age").value(student2.getAge()))
+                .andExpect(jsonPath("$[2].faculty").value(student2.getFaculty()));
+    }
+
+    @Test
+    void testDelete() throws Exception {
+        mockMvc.perform(delete("/student/" + 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

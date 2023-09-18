@@ -100,7 +100,7 @@ class FacultyControllerTest {
         template.delete("/faculty/" + response.getBody().getId());
         response = template.getForEntity("/faculty/" + response.getBody().getId(), Faculty.class);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test

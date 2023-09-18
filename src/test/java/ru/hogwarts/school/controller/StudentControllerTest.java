@@ -115,7 +115,7 @@ class StudentControllerTest {
         template.delete("/student/" + studentBody.getBody().getId());
         studentBody = template.getForEntity("/student/" + studentBody.getBody().getId(), Student.class);
         assertThat(studentBody).isNotNull();
-        assertThat(studentBody.getStatusCode()).isEqualTo(HttpStatus.INTERNAL_SERVER_ERROR);
+        assertThat(studentBody.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
     @Test

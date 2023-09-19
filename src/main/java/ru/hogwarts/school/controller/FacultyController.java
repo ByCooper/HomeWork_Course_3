@@ -37,9 +37,9 @@ public class FacultyController {
         return ResponseEntity.ok(read);
     }
 
-    @PutMapping
-    public ResponseEntity<Faculty> update(@RequestBody Faculty faculty) {
-        Faculty update = facultyService.update(faculty);
+    @PutMapping("{id}")
+    public ResponseEntity<Faculty> update(@PathVariable Long id, @RequestBody Faculty faculty) {
+        Faculty update = facultyService.update(id, faculty);
         if (update == null) {
             return  ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
@@ -53,7 +53,7 @@ public class FacultyController {
     }
 
     @GetMapping("/color/{color}")
-    public ResponseEntity<Collection<Faculty>> filterFacult(@PathVariable String color) {
+    public ResponseEntity<Collection<Faculty>> filterFaculty(@PathVariable String color) {
         Collection<Faculty> filter = facultyService.filter(color);
         return ResponseEntity.ok(filter);
     }

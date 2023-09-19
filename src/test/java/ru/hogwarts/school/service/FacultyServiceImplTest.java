@@ -51,7 +51,7 @@ class FacultyServiceImplTest {
         Faculty expected = new Faculty(1L, "Griffindor", "red");
 
         //Запуск теста
-        Faculty actual = cut.update(new Faculty(1L, "Griffindor", "red"));
+        Faculty actual = cut.update(1L, new Faculty(1L, "Griffindor", "red"));
         assertEquals(expected, actual);
         verify(cutMock, times(1)).save(any());
     }

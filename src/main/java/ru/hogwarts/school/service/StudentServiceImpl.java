@@ -31,9 +31,7 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Student find(Long id) {
-//        Optional<String> optionalValue = Optional.empty();
-//        String value = optionalValue.orElse(null);
-        return studentRepository.findById(id).orElse(null);
+        return studentRepository.findById(id).get();
     }
 
     @Override

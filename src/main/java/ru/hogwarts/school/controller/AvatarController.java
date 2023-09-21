@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/avatar")
@@ -28,9 +29,9 @@ public class AvatarController {
 
     @PostMapping(path = "/{id}/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadAvatar(@PathVariable Long id, @RequestParam MultipartFile avatar) throws IOException {
-//        if (avatar.getSize() > 1024 * 300) {
-//            return ResponseEntity.badRequest().body("Превышен размер файла");
-//        }
+        if (avatar.getSize() > 1024 * 300) {
+            return ResponseEntity.badRequest().body("Превышен размер файла");
+        }
         avatarService.uploader(id, avatar);
         return ResponseEntity.ok().build();
     }
@@ -60,5 +61,10 @@ public class AvatarController {
             response.setContentLength((int) avatar.getFileSize());
             is.transferTo(os);
         }
+    }
+
+    @GetMapping(path = "/download/pagination")
+    public List<Avatar> downloadAvatarPagination(@RequestParam("page") Integer pageNum, @RequestParam("size") Integer pageSize) {
+        return avatarService.findAvatarPagination(pageNum, pageSize);
     }
 }

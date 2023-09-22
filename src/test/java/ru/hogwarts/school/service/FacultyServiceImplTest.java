@@ -46,6 +46,7 @@ class FacultyServiceImplTest {
     void testUpdate() {
         //Подготовка входных данных
         when(cutMock.save(any())).thenReturn(new Faculty(1L, "Griffindor", "red"));
+        when(cutMock.findById(any())).thenReturn(Optional.of(new Faculty(1L, "Griffindor", "red")));
 
         //Подготовка ожидаемого результата
         Faculty expected = new Faculty(1L, "Griffindor", "red");

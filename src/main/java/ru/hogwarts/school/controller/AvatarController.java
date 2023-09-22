@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
-import ru.hogwarts.school.service.AvatarServiceImpl;
+import ru.hogwarts.school.service.AvatarService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -21,9 +21,9 @@ import java.util.List;
 @RequestMapping(path = "/avatar")
 public class AvatarController {
 
-    private final AvatarServiceImpl avatarService;
+    private final AvatarService avatarService;
 
-    public AvatarController(AvatarServiceImpl avatar) {
+    public AvatarController(AvatarService avatar) {
         this.avatarService = avatar;
     }
 
@@ -64,7 +64,11 @@ public class AvatarController {
     }
 
     @GetMapping(path = "/download/pagination")
-    public List<Avatar> downloadAvatarPagination(@RequestParam("page") Integer pageNum, @RequestParam("size") Integer pageSize) {
-        return avatarService.findAvatarPagination(pageNum, pageSize);
+    public ResponseEntity<List<Avatar>> downloadAvatarPagination(@RequestParam("page") Integer pageNum, @RequestParam("size") Integer pageSize) {
+        List<Avatar> list = avatarService.findAvatarPagination(pageNum, pageSize);
+        if (pageNum < 0) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.ok(list);
     }
 }

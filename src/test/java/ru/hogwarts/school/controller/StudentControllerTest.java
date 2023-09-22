@@ -146,7 +146,7 @@ class StudentControllerTest {
         ResponseEntity<Student> studentBody = template.getForEntity("/student/" + 1L, Student.class);
         List<Student> expected = new ArrayList<>();
         expected.add(studentBody.getBody());
-        ResponseEntity<Collection> response = template.getForEntity("/student/age/" + 24, Collection.class);
+        ResponseEntity<Collection> response = template.getForEntity("/student/age-find?age=" + 24, Collection.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().toString()).isEqualTo(Arrays.toString(expected.toArray()));

@@ -9,7 +9,6 @@ import ru.hogwarts.school.model.StudentRepository;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -51,25 +50,27 @@ public class StudentServiceImpl implements StudentService{
     public Collection<Student> getAll() {
         return studentRepository.findAll();
     }
-
+    @Override
     public Collection<Student> findByAgeBetween(int min, int max) {
         return studentRepository.findByAgeBetween(min, max);
     }
-
+    @Override
     public Faculty getFaculty(Long id) {
         return studentRepository.findById(id).get().getFaculty();
     }
-
+    @Override
     public List<Student> findByFacultyId(Long id) {
         return studentRepository.findByFaculty_Id(id);
     }
-
+    @Override
     public Integer getStudentByCategory() {
         return studentRepository.getStudentByCategory();
     }
+    @Override
     public Integer getStudentByAvgAge() {
         return studentRepository.getStudentByAvgAge();
     }
+    @Override
     public List<StudentByCategory> getStudentByOffset() {
         return studentRepository.getStudentByOffset();
     }

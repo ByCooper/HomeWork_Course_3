@@ -119,7 +119,7 @@ class FacultyControllerTest {
         list.add(new Faculty(1l, "JEDI-school", "green-blue"));
         list.add(new Faculty(3l, "SKY-PRO", "green-blue"));
 
-        ResponseEntity<Collection> response = template.getForEntity("/faculty/color/" + faculty.getColor(), Collection.class);
+        ResponseEntity<Collection> response = template.getForEntity("/faculty/color-find/?color=" + faculty.getColor(), Collection.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().size()).isEqualTo(list.size());
@@ -178,12 +178,12 @@ class FacultyControllerTest {
         list1.add(new Faculty(1l, "JEDI-school", "green-blue"));
         list1.add(new Faculty(3l, "SKY-PRO", "green-blue"));
 
-        ResponseEntity<Collection> response = template.getForEntity("/faculty?name=" + faculty.getName(), Collection.class);
+        ResponseEntity<Collection> response = template.getForEntity("/faculty/find?name=" + faculty.getName(), Collection.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getBody().toString()).isEqualTo(Arrays.toString(list.toArray()));
 
-        ResponseEntity<Collection> response1 = template.getForEntity("/faculty?color=" + "green-blue", Collection.class);
+        ResponseEntity<Collection> response1 = template.getForEntity("/faculty/find?color=" + "green-blue", Collection.class);
         assertThat(response1).isNotNull();
         assertThat(response1.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response1.getBody().toString()).isEqualTo(Arrays.toString(list1.toArray()));

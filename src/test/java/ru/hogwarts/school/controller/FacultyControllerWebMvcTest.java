@@ -93,6 +93,7 @@ class FacultyControllerWebMvcTest {
         faculty.setColor("green");
 
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
+        when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
 
         mockMvc.perform(put("/faculty/" + faculty.getId())
                         .content(objectMapper.writeValueAsString(faculty))

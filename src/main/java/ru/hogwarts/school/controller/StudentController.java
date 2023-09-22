@@ -5,19 +5,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
-import ru.hogwarts.school.service.StudentServiceImpl;
+import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
-import java.util.Optional;
 
 
 @RequestMapping("student")
 @RestController
 public class StudentController {
 
-    private final StudentServiceImpl studentService;
+    private final StudentService studentService;
 
-    public StudentController(StudentServiceImpl studentService) {
+    public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
 
@@ -51,8 +50,8 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/age/{age}")
-    public ResponseEntity<Collection<Student>> filterAge(@PathVariable int age) {
+    @GetMapping("/age-find")
+    public ResponseEntity<Collection<Student>> filterAge(@RequestParam("age") int age) {
         Collection<Student> filter = studentService.filter(age);
         return ResponseEntity.ok(filter);
     }

@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.hibernate.annotations.common.util.impl.LoggerFactory;
+import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -27,6 +29,7 @@ public class AvatarServiceImpl implements AvatarService{
 
     @Value("${path.to.avatars.folder}")
     private String avatarsDir;
+    private final Logger logger = LoggerFactory.logger(AvatarServiceImpl.class);
 
     private final AvatarRepository avatarRepository;
     private final StudentRepository studentRepository;
@@ -40,6 +43,7 @@ public class AvatarServiceImpl implements AvatarService{
     @Override
     public void uploader(Long id, MultipartFile file) throws IOException {
         Student student = studentRepository.getById(id);
+        logger.info("Was invoked method for upload avatar");
 
         Path filePath = Path.of(avatarsDir, student.getName() + "." + getExtension(file.getOriginalFilename()));
         Files.createDirectories(filePath.getParent());
@@ -64,6 +68,7 @@ public class AvatarServiceImpl implements AvatarService{
     }
 
     private byte[] getImageData(Path filePath) throws IOException {
+        logger.info("Was invoked method for getImageData avatar");
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
@@ -78,17 +83,21 @@ public class AvatarServiceImpl implements AvatarService{
 
             ImageIO.write(data, getExtension(filePath.getFileName().toString()), bos);
             return bos.toByteArray();
+
         }
     }
 
     public String getExtension(String fileName) {
+        logger.info("Was invoked method for getExtension avatar");
         return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
     public Avatar findAvatar(Long idStudent) {
+        logger.info("Was invoked method for findAvatar avatar");
         return avatarRepository.findByStudent_Id(idStudent).orElse(new Avatar());
     }
     public List<Avatar> findAvatarPagination(Integer pageNum, Integer sizeVal) {
+        logger.info("Was invoked method for findAvatarPagination avatar");
         PageRequest pageRequest = PageRequest.of(pageNum - 1, sizeVal);
         return avatarRepository.findAll(pageRequest).getContent();
     }

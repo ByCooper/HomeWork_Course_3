@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 public class StudentServiceImpl implements StudentService{
 
     private final Logger logger = LoggerFactory.logger(StudentServiceImpl.class);
-    @Autowired
     private final StudentRepository studentRepository;
 
     public StudentServiceImpl(StudentRepository studentRepository) {

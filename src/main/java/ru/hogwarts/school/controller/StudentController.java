@@ -76,4 +76,16 @@ public class StudentController {
         }
         return ResponseEntity.ok(faculty);
     }
+
+    @GetMapping("/sorted")
+    public ResponseEntity<Collection<String>> getFindFirstLiterStudent(@RequestParam("liter") String liter) {
+        Collection<String> list = studentService.getFirstLiterStudent(liter);
+        return ResponseEntity.ok(list);
+    }
+
+    @GetMapping("/age-avg-stream")
+    public ResponseEntity<Integer> getAgeAverageStudent() {
+        Integer avgAge = studentService.getAgeAverageStudent();
+        return ResponseEntity.ok(avgAge);
+    }
 }

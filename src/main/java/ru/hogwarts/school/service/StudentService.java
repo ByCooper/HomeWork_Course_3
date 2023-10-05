@@ -21,4 +21,6 @@ public interface StudentService {
     Integer getStudentByCategory();
     Integer getStudentByAvgAge();
     List<StudentByCategory> getStudentByOffset();
+    List<String> getFirstLiterStudent(String liter);
+    Integer getAgeAverageStudent();
 }

@@ -7,9 +7,9 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.FacultyRepository;
 import ru.hogwarts.school.model.Student;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class FacultyServiceImpl implements FacultyService{
@@ -84,5 +84,32 @@ public class FacultyServiceImpl implements FacultyService{
     public List<Student> getStudentFromFaculty(Long id) {
         logger.info("Was invoked method for getStudentFromFaculty faculty");
         return studentService.findByFacultyId(id);
+    }
+
+    @Override
+    public String getLongNameFaculty() {
+        logger.info("Was invoked method for getLongNameFaculty faculty");
+        int sizeName = facultyRepository.findAll().stream()
+                .map(e -> e.getName().length())
+                .max(Comparator.naturalOrder())
+                .get();
+
+        return facultyRepository.findAll().stream()
+                .map(e -> e.getName())
+                .filter(e -> e.length() == sizeName)
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public Integer getStreamIterate() {
+        logger.info("Was invoked method for getStreamIterate faculty");
+        long start = System.currentTimeMillis();
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        long finish = System.currentTimeMillis();
+        System.out.println("Total time = " + (finish - start) + " ms");
+        return sum;
     }
 }

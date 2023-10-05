@@ -2,15 +2,17 @@ package ru.hogwarts.school.service;
 
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.jboss.logging.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.model.StudentByCategory;
 import ru.hogwarts.school.model.StudentRepository;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
+import java.util.stream.IntStream;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -97,5 +99,25 @@ public class StudentServiceImpl implements StudentService{
     public List<StudentByCategory> getStudentByOffset() {
         logger.info("Was invoked method for getStudentByOffset student");
         return studentRepository.getStudentByOffset();
+    }
+
+    @Override
+    public List<String> getFirstLiterStudent(String liter) {
+        logger.info("Was invoked method for getFirstLiterStudent student");
+        return studentRepository.findAll().stream()
+                .map(e -> e.getName())
+                .map(e -> e.substring(0,1).toUpperCase() + e.substring(1))
+                .filter(e -> e.startsWith(liter))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Integer getAgeAverageStudent() {
+        logger.info("Was invoked method for getAgeAverageStudent student");
+        List<Integer> list = studentRepository.findAll().stream()
+                .map(e -> e.getAge())
+                .collect(Collectors.toList());
+        OptionalDouble average = list.stream().mapToInt(e -> e).average();
+        return (int) average.getAsDouble();
     }
 }

@@ -89,14 +89,12 @@ public class FacultyServiceImpl implements FacultyService{
     @Override
     public String getLongNameFaculty() {
         logger.info("Was invoked method for getLongNameFaculty faculty");
-        int sizeName = facultyRepository.findAll().stream()
-                .map(e -> e.getName().length())
-                .max(Comparator.naturalOrder())
-                .get();
-
         return facultyRepository.findAll().stream()
                 .map(e -> e.getName())
-                .filter(e -> e.length() == sizeName)
+                .filter(e -> e.length() == (facultyRepository.findAll().stream()
+                        .map(a -> a.getName().length())
+                        .max(Comparator.naturalOrder())
+                        .get()))
                 .map(String::valueOf)
                 .collect(Collectors.joining(", "));
     }

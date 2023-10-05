@@ -136,6 +136,6 @@ class FacultyServiceImplTest {
         //Запуск теста
         String actual = cut.getLongNameFaculty();
         assertEquals(expected, actual);
-        verify(cutMock, times(2)).findAll();
+        verify(cutMock, times(5)).findAll();
     }
 }

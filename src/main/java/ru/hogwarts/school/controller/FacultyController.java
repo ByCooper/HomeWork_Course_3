@@ -79,4 +79,16 @@ public class FacultyController {
         List<Student> students = facultyService.getStudentFromFaculty(id);
         return ResponseEntity.ok(students);
     }
+
+    @GetMapping("/long-name-faculty")
+    public ResponseEntity<String> getLongNameFaculty() {
+        String longName = facultyService.getLongNameFaculty();
+        return ResponseEntity.ok(longName);
+    }
+
+    @GetMapping("/step-four")
+    public ResponseEntity<Integer> getStreamIterate() {
+        Integer item = facultyService.getStreamIterate();
+        return ResponseEntity.ok(item);
+    }
 }

@@ -119,4 +119,23 @@ class FacultyServiceImplTest {
         assertArrayEquals(expected.toArray(), actual.toArray());
         verify(cutMock, times(1)).findAll();
     }
+
+    @Test
+    void testGetLongNameFaculty() {
+        //Подготовка входных данных
+        List<Faculty> faculties = new ArrayList<>();
+        faculties.add(new Faculty(1L, "Griffindor", "red-yellow"));
+        faculties.add(new Faculty(2L, "Slizzerin", "green-white"));
+        faculties.add(new Faculty(3L, "Jedi-shcool", "green-white"));
+        faculties.add(new Faculty(4L, "Wall-Stret", "grey"));
+        when(cutMock.findAll()).thenReturn(faculties);
+
+        //Подготовка ожидаемого результата
+        String expected = "Jedi-shcool";
+
+        //Запуск теста
+        String actual = cut.getLongNameFaculty();
+        assertEquals(expected, actual);
+        verify(cutMock, times(5)).findAll();
+    }
 }

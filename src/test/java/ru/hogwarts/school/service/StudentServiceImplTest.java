@@ -119,4 +119,42 @@ class StudentServiceImplTest {
         assertArrayEquals(expected.toArray(), actual.toArray());
         verify(cutMock, times(1)).findAll();
     }
+
+    @Test
+    void testGetFirstLiterStudent() {
+        //Подготовка входных данных
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(1L, "Harry", 35));
+        students.add(new Student(2L, "thon", 91));
+        students.add(new Student(3L, "Thor", 35));
+        students.add(new Student(4L, "Yoda", 23));
+        when(cutMock.findAll()).thenReturn(students);
+
+        //Подготовка ожидаемого результата
+        List<String> expected = new ArrayList<>(List.of("Thon", "Thor"));
+
+        //Запуск теста
+        Collection<String> actual = cut.getFirstLiterStudent("T");
+        assertArrayEquals(expected.toArray(), actual.toArray());
+        verify(cutMock, times(1)).findAll();
+    }
+
+    @Test
+    void testGetAgeAverageStudent() {
+        //Подготовка входных данных
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(1L, "Harry", 35));
+        students.add(new Student(2L, "thon", 91));
+        students.add(new Student(3L, "Thor", 35));
+        students.add(new Student(4L, "Yoda", 23));
+        when(cutMock.findAll()).thenReturn(students);
+
+        //Подготовка ожидаемого результата
+        int expected = 46;
+
+        //Запуск теста
+        int actual = cut.getAgeAverageStudent();
+        assertEquals(expected, actual);
+        verify(cutMock, times(1)).findAll();
+    }
 }

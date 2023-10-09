@@ -157,4 +157,54 @@ class StudentServiceImplTest {
         assertEquals(expected, actual);
         verify(cutMock, times(1)).findAll();
     }
+
+    @Test
+    void testGetStreamStudent() {
+        //Подготовка входных данных
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(1L, "Harry", 35));
+        students.add(new Student(2L, "Sadko", 91));
+        students.add(new Student(3L, "Thor", 35));
+        students.add(new Student(4L, "Yoda", 23));
+        students.add(new Student(5L, "Harrys", 35));
+        students.add(new Student(6L, "Sadkoff", 91));
+        students.add(new Student(7L, "Thoran", 35));
+        students.add(new Student(8L, "Yodamarin", 23));
+        students.add(new Student(9L, "Thortik", 35));
+        students.add(new Student(10L, "Yodasan", 23));
+        when(cutMock.findAll()).thenReturn(students);
+
+        //Подготовка ожидаемого результата
+        List<String> expected = new ArrayList<>(List.of("Harry", "Sadko", "Thor", "Yoda", "Harrys","Sadkoff","Thoran","Yodamarin","Thortik","Yodasan"));
+
+        //Запуск теста
+        Collection<String> actual = cut.getStreamStudent();
+        assertNotNull(actual);
+        verify(cutMock, times(11)).findAll();
+    }
+
+    @Test
+    void testGetSyncName() {
+        //Подготовка входных данных
+        List<Student> students = new ArrayList<>();
+        students.add(new Student(1L, "Harry", 35));
+        students.add(new Student(2L, "Sadko", 91));
+        students.add(new Student(3L, "Thor", 35));
+        students.add(new Student(4L, "Yoda", 23));
+        students.add(new Student(5L, "Harrys", 35));
+        students.add(new Student(6L, "Sadkoff", 91));
+        students.add(new Student(7L, "Thoran", 35));
+        students.add(new Student(8L, "Yodamarin", 23));
+        students.add(new Student(9L, "Thortik", 35));
+        students.add(new Student(10L, "Yodasan", 23));
+        when(cutMock.findAll()).thenReturn(students);
+
+        //Подготовка ожидаемого результата
+        List<String> expected = new ArrayList<>(List.of("Harry", "Sadko", "Thor", "Yoda", "Harrys","Sadkoff","Thoran","Yodamarin","Thortik","Yodasan"));
+
+        //Запуск теста
+        Collection<String> actual = cut.getSyncName();
+        assertArrayEquals(expected.toArray(), actual.toArray());
+        verify(cutMock, times(11)).findAll();
+    }
 }

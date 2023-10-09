@@ -23,4 +23,6 @@ public interface StudentService {
     List<StudentByCategory> getStudentByOffset();
     List<String> getFirstLiterStudent(String liter);
     Integer getAgeAverageStudent();
+    List<String> getStreamStudent();
+    List<String> getSyncName();
 }

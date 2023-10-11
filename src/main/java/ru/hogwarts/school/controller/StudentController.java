@@ -88,4 +88,16 @@ public class StudentController {
         Integer avgAge = studentService.getAgeAverageStudent();
         return ResponseEntity.ok(avgAge);
     }
+
+    @GetMapping("/three-stream")
+    public ResponseEntity<Collection<String>> getStream() {
+        Collection<String> listStream = studentService.getStreamStudent();
+        return ResponseEntity.ok(listStream);
+    }
+
+    @GetMapping("/sync")
+    public ResponseEntity<Collection<String>> getSyncName() {
+        Collection<String> list = studentService.getSyncName();
+        return ResponseEntity.ok(list);
+    }
 }

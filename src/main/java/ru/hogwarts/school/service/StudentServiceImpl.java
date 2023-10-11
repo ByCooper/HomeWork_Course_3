@@ -120,4 +120,63 @@ public class StudentServiceImpl implements StudentService{
         OptionalDouble average = list.stream().mapToInt(e -> e).average();
         return (int) average.getAsDouble();
     }
+
+    @Override
+    public List<String> getStreamStudent() {
+        logger.info("Was invoked method for getStreamStudent student");
+        System.out.println(getName().get(0));
+        System.out.println(getName().get(1));
+        new Thread(() ->
+        {
+            System.out.println(getName().get(2));
+            System.out.println(getName().get(3));
+            System.out.println(getName().get(4));
+        }).start();
+        new Thread(() -> {
+            System.out.println(getName().get(5));
+            System.out.println(getName().get(6));
+            System.out.println(getName().get(7));
+        }).start();
+        System.out.println(getName().get(8));
+        System.out.println(getName().get(9));
+
+        return getName();
+    }
+
+    @Override
+    public List<String> getSyncName() {
+        logger.info("Was invoked method for getSyncName student");
+        doPrint(getName().get(0));
+        doPrint(getName().get(1));
+        doPrint(getName().get(2));
+        doPrint(getName().get(3));
+        new Thread(() -> {
+            doPrint(getName().get(4));
+            doPrint(getName().get(5));
+            doPrint(getName().get(6));
+        }).start();
+        new Thread(() -> {
+            doPrint(getName().get(7));
+            doPrint(getName().get(8));
+            doPrint(getName().get(9));
+        }).start();
+
+        return getName();
+    }
+
+    private void doPrint(Object object) {
+        synchronized (flag) {
+            System.out.println(object);
+        }
+    }
+
+    private List<String> getName() {
+        logger.info("Was invoked method for getName student");
+        return studentRepository.findAll().stream()
+                .map(e -> e.getName())
+                .map(e -> e.substring(0,1).toUpperCase() + e.substring(1))
+                .collect(Collectors.toList());
+    }
+
+    final Object flag = new Object();
 }

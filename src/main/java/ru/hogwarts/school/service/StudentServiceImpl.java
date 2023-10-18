@@ -120,7 +120,7 @@ public class StudentServiceImpl implements StudentService{
         OptionalDouble average = list.stream().mapToInt(e -> e).average();
         return (int) average.getAsDouble();
     }
-
+    // Streams
     @Override
     public List<String> getStreamStudent() {
         logger.info("Was invoked method for getStreamStudent student");
